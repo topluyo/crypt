@@ -11,11 +11,16 @@ function encrypt(data,password){
 }
 
 function decrypt(data,password){
-    const method = 'aes-256-cbc';
-    const passwordHash = crypto.createHash('sha256').update(password).digest();
-    const iv = Buffer.alloc(16, 0); // 16-byte zeroed buffer
-    const decipher = crypto.createDecipheriv(method, passwordHash, iv);
+  const method = 'aes-256-cbc';
+  const passwordHash = crypto.createHash('sha256').update(password).digest();
+  const iv = Buffer.alloc(16, 0); // 16-byte zeroed buffer
+  const decipher = crypto.createDecipheriv(method, passwordHash, iv);
+  try{
     let decrypted = decipher.update(data, 'base64', 'utf8');
     decrypted += decipher.final('utf8');
     return decrypted
+  }catch(e){
+    return ""
+  }
 }
+
