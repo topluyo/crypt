@@ -10,20 +10,6 @@ function encodeChecksum(message) {
   return prefix + message;
 }
 
-// Function to verify checksum and extract the original message
-function decodeChecksum(message) {
-  if (message.length < 2) {
-    return false;
-  }
-  const checksumChar = message[0];
-  const actualMessage = message.slice(1);
-  let sum = 0;
-  for (let i = 0; i < actualMessage.length; i++) {
-    sum += actualMessage.charCodeAt(i);
-  }
-  const expectedChecksum = String.fromCharCode(sum % 255);
-  return checksumChar === expectedChecksum ? actualMessage : false;
-}
 
 // Encryption with checksum
 function encrypt(data, password) {
@@ -38,6 +24,21 @@ function encrypt(data, password) {
   return encrypted;
 }
 
+
+// Function to verify checksum and extract the original message
+function decodeChecksum(message) {
+  if (message.length < 2) {
+    return false;
+  }
+  const checksumChar = message[0];
+  const actualMessage = message.slice(1);
+  let sum = 0;
+  for (let i = 0; i < actualMessage.length; i++) {
+    sum += actualMessage.charCodeAt(i);
+  }
+  const expectedChecksum = String.fromCharCode(sum % 255);
+  return checksumChar === expectedChecksum ? actualMessage : false;
+}
 
 // Decryption with checksum verification
 function decrypt(data, password) {
