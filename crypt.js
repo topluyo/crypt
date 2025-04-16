@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 
-
 // Encryption with checksum
 function encrypt(data, password) {
   const method = 'aes-256-cbc';
@@ -24,7 +23,7 @@ function decrypt(data, password) {
     decrypted += decipher.final('utf8');
     let checksum = decrypted.substring(0,4);
     let message  = decrypted.substring(4);
-    if(md5(message).substring(0,4)==checksum){
+    if(crypto.createHash('md5').update(message).digest('hex').substring(0,4)==checksum){
       return message;
     }else{
       return "";
@@ -34,3 +33,10 @@ function decrypt(data, password) {
   }
 }
 
+/*
+x = encrypt('Hello World','password') 
+console.log(x)
+
+y = decrypt(x,'password')
+console.log(y)
+*/
